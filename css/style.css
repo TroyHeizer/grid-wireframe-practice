@@ -5,15 +5,17 @@ body {
   display: grid;
   justify-items: center;
   align-items: start;
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 30px;
 }
 
 .grid-container {
-  width: 360px;
+  width: 100%;
   display: grid;
   grid-template-rows: auto auto auto auto auto;
   gap: 10px;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 header,
@@ -46,16 +48,27 @@ footer {
 
 .columns-group {
   background-color: #28B47B;
-  padding: 0 10px;
+  padding: 15px;
   border-radius: 8px;
   display: grid;
-  grid-template-rows: repeat(3, auto);
-  gap: 10px;
-  border-top: 6px solid #28B47B;
-  border-bottom: 6px solid #28B47B;
+  grid-template-rows: 1fr auto auto;
+  min-height: 200px;
+  align-items: end;
 }
 
-.columns-group > .column {
+/* Hide article label on mobile */
+.article-label {
+  display: none;
+}
+
+.column-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.column {
   background-color: #E4195B;
   color: white;
   height: 50px;
@@ -63,4 +76,74 @@ footer {
   place-items: center;
   border-radius: 8px;
   font-size: 1.5rem;
+  width: 100%;
+}
+
+/* === Media query for screens 900px and wider === */
+@media (min-width: 900px) {
+  body {
+    padding-top: 0;
+  }
+
+  .grid-container {
+    max-width: 900px;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header header header"
+      "aside1 columns-group aside2"
+      "footer footer footer";
+    gap: 20px;
+    height: 80vh;
+  }
+
+  header {
+    grid-area: header;
+    margin-top: 30px;
+  }
+
+  .aside1 {
+    grid-area: aside1;
+    height: auto;
+    align-self: stretch;
+  }
+
+  .aside2 {
+    grid-area: aside2;
+    height: auto;
+    align-self: stretch;
+  }
+
+  .columns-group {
+    grid-area: columns-group;
+    grid-template-rows: 1fr auto auto; /* Push bottom items down */
+  }
+
+  .article-label {
+    display: block;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .column-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+
+  .column {
+    height: 70px;
+    width: 100%;
+    margin: 0;
+  }
+
+  footer {
+    grid-area: footer;
+  }
 }
